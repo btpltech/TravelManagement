@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+
+<openerp>
+  <data>
+    
+      <record model="ir.ui.view" id="travel_custompackage_form">
+         <field name="name">travel.custompackage.form</field>
+         <field name="model">travel.custompackage</field>
+         <field name="type">form</field>
+         <field name="arch" type="xml">
+            <form string="Request Package Management" version="7.0">
+              <sheet>
+                 <h4>
+                   <label string="Custom Package Id" colspan="4" />
+                   <field name="cp_id" class="oe_inline"/>
+                 </h4>
+                 <h4>
+                   <label string="Custom Package Name" colspan="4" />
+                   <field name="package_name" class="oe_inline"/>
+                 </h4>
+                   <group colspan="4" col="4">
+                     <field name="no_adults"/>
+                     <field name="no_children"/>
+                     <field name="date_travel" class="oe_inline"/>
+                   </group>
+
+              <notebook colspan="4">
+               <page string="Hotels and Stay Summary">
+                 <separator string="Hotel and Stay Lines" colspan="4"/>
+                   <field name="hotelstay_lines" colspan="4" string="Hotel and Stay Lines" nolabel="1">
+                     <form string="Hotel and Stay Lines"  version="7.0">
+                      <group>
+                      <group colspan="4" col="4">
+                        <field name="checkin"/>
+                        <field name="checkout"/>
+                        <field name="no_night" class="oe_inline"/>
+                        <field name="city" class="oe_inline"/>
+                      </group>
+                      <group colspan="4" col="4">  
+                        <field name="hotel" context="{'search_default_supplier':1,'default_supplier':1,'default_customer':0}" domain="[('supplier','=',True)]"/>
+                      </group>
+                    </group>
+                    <notebook colspan="4">
+                            <page string="Room Type">
+                               <separator string="Room Type" colspan="4"/>   
+                                <field name="room_lines" colspan="4" string="Room Types Lines" nolabel="1">   
+                                  <form string="Room Management" version="7.0">
+                                     <group>                                       
+                                       <field name="roomtype_name" class="oe_inline" domain="[('isroom','=',True)]"/>
+                                     </group>                                     
+                                  </form>
+                                  <tree string="Room Type">
+                                    <field name="roomtype_name"/>
+                                  </tree>
+                                </field>
+                          </page>
+                          <page string="Meals">
+                            <separator string="Meal Type" colspan="4"/>   
+                              <field name="meal_lines" colspan="4" string="Meal Types Lines" nolabel="1">   
+                                  <form string="Meal Management" version="7.0">
+                                     <group>
+                                       <field name="mealtype_name" class="oe_inline" domain="[('ismeal','=',True)]"/>
+                                     </group>
+                                  </form>
+                                  <tree string="Meal Type">
+                                    <field name="mealtype_name"/>
+                                  </tree>
+                                </field>
+                            </page>
+                            <page string="Amenities and Inclusions">
+                              <separator string="Amenities and Inclusions Management" colspan="4"/>
+                                   <field name="amenity_lines" colspan="4" string="Room Amenity Types"
+                                    nolable="1">
+                                    <form string="Amenity and Inclusion Management" version="7.0">
+                                      <sheet>
+                                       <group>
+                                         <field name="amenity_name" domain="[('isamenityid','=',True)]"/>
+                                       </group>
+                                       <group>
+                                         <field name="description"/>
+                                       </group>  
+                                      </sheet> 
+                                    </form>
+                                    <tree string="Amenity and Inclusion Management">
+                                       <field name="amenity_name"/>
+                                       <field name="description"/> 
+                                    </tree> 
+                                </field>   
+                            </page>  
+                        </notebook>
+                     </form>
+                     <tree string="Travel Itenary Management">
+                        <field name="checkin"/>
+                        <field name="checkout"/>
+                        <field name="no_night"/>
+                        <field name="city"/>
+                        <field name="hotel"/>
+                     </tree>
+                   </field>
+               </page>
+
+               <page string="Intracity Travel Mode">
+                 <separator string="Intracity Travel Lines" colspan="4"/>
+                   <field name="intracity_lines" colspan="4" string="Intracity Travel Lines" nolabel="1">
+                     <form string="Intracity Travel Lines"  version="7.0">
+                      <group>
+                        <field name="tm_name" class="oe_inline"/>
+                        <field name="city" class="oe_inline"/>
+                      </group>
+                     </form>
+                     <tree string="Travel Itenary Management">
+                        <field name="city"/>
+                        <field name="tm_name"/>
+                     </tree>
+                   </field>
+               </page>
+
+
+               <page string="Intercity Travel Details">
+                 <separator string="Intercity Travel Details" colspan="4"/>
+                   <field name="intercity_lines" colspan="4" string="Intercity Transportation Lines" nolabel="1">
+                     <form string="Intercity Transportation Lines"  version="7.0">
+                      <group>
+                      <group cols="6">
+                        <field name="travel_id" class="oe_inline"/>
+                        <field name="tm_name" class="oe_inline"/>
+                      </group>
+                      <group colspan="4" cols="6">  
+                        <field name="s_city" class="oe_inline"/>
+                        <field name="d_city" class="oe_inline"/>
+                      </group>
+                      </group>
+                     </form>
+                      <tree string="Travel Itenary Management">
+                        <field name="travel_id"/>
+                        <field name="tm_name"/>
+                        <field name="s_city"/>
+                        <field name="d_city"/>
+                      </tree>
+                    </field>
+              </page>
+
+             </notebook> 
+            </sheet>
+           </form>
+        </field>       
+      </record>
+
+      <record model="ir.ui.view" id="travel_custompackage_tree">
+         <field name="name">travel.custompackage.tree</field>
+         <field name="model">travel.custompackage</field>
+         <field name="type">tree</field>
+         <field name="arch" type="xml">
+                <tree string="Request Package Management">
+                     <field name="cp_id"/>
+                     <field name="package_name"/>
+                     <field name="date_travel"/>
+                </tree>
+         </field>
+      </record>                
+
+       <record model="ir.actions.act_window" id="open_travel_custompackage">
+            <field name="name">Request Package Management</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">travel.custompackage</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+
+       <menuitem name="Request Packages" id="info_custom" parent="travel_package.travel_management_menu" sequence="4"/>
+       <menuitem name="On Demand Packages" id="generate_package" parent="info_custom" action="open_travel_custompackage" sequence="5"/>
+    </data>
+</openerp>

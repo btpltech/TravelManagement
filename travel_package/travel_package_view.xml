@@ -1,0 +1,444 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+      <menuitem id="travel_management_menu" name="Travel Management"/>
+      <menuitem id="travel_configuration_menu" name="Configuration" sequence="20" parent ="travel_management_menu"/>
+<!--=================================================================================================================-->
+
+
+  <!--=====================================================================================
+                                  hotel Information
+      =====================================================================================  -->
+
+       <record model="ir.ui.view" id="travel_hotel_room_form">
+         <field name="name">travel.hotel.room.form</field>
+         <field name="model">travel.hotel.room</field>
+         <field name="type">form</field>
+         <field name="arch" type="xml">
+                <form string="Hotel Management" version="7.0">
+                    <sheet>
+                      <h1>
+                        <label string="Hotel Management" colspan="4" />
+                      </h1>
+                      <group>
+                        <group col="2">
+                         <field name="hotel_id"/>
+                         <field name="hotel_name" class="oe_inline" select="1"/>
+                      </group>
+                      <group col="2">
+                         <field name="city_name" class="oe_inline"/>
+                         <field name="bill_contact" class="oe_inline" context="{'search_default_supplier':1,'default_supplier':1,'default_customer':0}" domain="[('supplier','=',True)]"/>
+                      </group>
+                      <group col="2"> 
+                         <field name="address" class="oe_inline"/>
+                         <field name="stars" class="oe_inline"/>
+                      </group> 
+                      </group>
+                       <notebook colspan="4">
+                            <page string="Room Type">
+                               <separator string="Room Type" colspan="4"/>   
+                                <field name="room_lines" colspan="4" string="Room Types Lines" nolabel="1">   
+                                  <form string="Room Management" version="7.0">
+                                     <group>
+                                       
+                                       <field name="roomtype_name" class="oe_inline" domain="[('isroom','=',True)]"/>
+                                       <field name="price" class="oe_inline"/>
+                                     </group>
+                                     
+                                  </form>
+                                  <tree string="Room Type">
+                                    <field name="roomtype_name" />
+                                    <field name="price"/>
+                                  </tree>
+                                </field>
+                          </page>
+                          <page string="Meals">
+                            <separator string="Meal Type" colspan="4"/>   
+                              <field name="meal_lines" colspan="4" string="Meal Types Lines" nolabel="1">   
+                                  <form string="Meal Management" version="7.0">
+                                     <group>
+                                       
+                                       <field name="mealtype_name" class="oe_inline" domain="[('ismeal','=',True)]"/>
+                                       <field name="price_unit" class="oe_inline"/>
+                                     </group>
+                                  </form>
+                                  <tree string="Meal Type">
+                                    <field name="mealtype_name"/>
+                                    <field name="price_unit"/>
+                                  </tree>
+                                </field>
+                            </page>
+                            <page string="Amenities and Inclusions">
+                              <separator string="Amenities and Inclusions Management" colspan="4"/>
+                                   <field name="amenity_lines" colspan="4" string="Room Amenity Types" nolable="1">
+                                    <form string="Amenity and Inclusion Management" version="7.0">
+                                       <group>                                         
+                                         <field name="amenity_name" domain="[('isamenityid','=',True)]"/>
+                                         <field name="description"/>
+                                         <field name="amount"/>
+                                       </group> 
+                                    </form>
+                                    <tree string="Amenity and Inclusion Management">
+                                       <field name="amenity_name"/>
+                                       <field name="description"/>
+                                       <field name="amount"/>  
+                                    </tree> 
+                                </field>   
+                            </page>  
+                        </notebook>                
+                    </sheet>    
+                </form>
+           </field> 
+       </record>
+
+       <record model="ir.ui.view" id="travel_hotel_room_tree">
+         <field name="name">travel.hotel.room.tree</field>
+         <field name="model">travel.hotel.room</field>
+         <field name="type">tree</field>
+         <field name="arch" type="xml">
+                <tree string="Hotel Management">
+                    <field name="hotel_id"/>
+                    <field name="hotel_name"/>
+                    <field name="city_name"/>
+                    <field name="address"/>
+                    <field name="stars"/>
+                 </tree>
+          </field> 
+       </record>
+
+       <record id="open_travel_hotel_room_form_tree_all" model="ir.actions.act_window">
+            <field name="name">Hotel Management</field>
+            <field name="res_model">travel.hotel.room</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+
+      <menuitem name="Hotel Management" id="info_hotel" parent="travel_configuration_menu" 
+        action="open_travel_hotel_room_form_tree_all" sequence="21"/>
+
+
+         <!-- ==============================================================================================================
+                                                  City list
+           =============================================================================================================  -->
+
+
+       <record id="view_city_tree" model="ir.ui.view">
+            <field name="name">city.tree</field>
+            <field name="model">city</field>
+            <field name="arch" type="xml">
+                <tree string="City">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_city_form" model="ir.ui.view">
+            <field name="name">city.form</field>
+            <field name="model">city</field>
+            <field name="arch" type="xml">
+                <form string="City" version="7.0">                    
+                        <group>
+                            <field name="name" class="oe_inline"/>
+                            <field name="code" class="oe_inline"/>
+                        </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_city" model="ir.actions.act_window">
+            <field name="name">Cities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">city</field>
+            <field name="view_type">form</field>
+            <field name="help">Display and manage the list of all cities that can be assigned to your records. You can create or delete cities to make sure the ones you are working on will be maintained.
+            </field>
+        </record>
+
+
+        <menuitem name="Cities" id="menu_city_list" parent="travel_configuration_menu" action="action_city" sequence="31"/>
+
+        
+       <!-- ==============================================================================================================
+                                                  Travel mode list
+           =============================================================================================================  -->
+
+
+       <record id="view_travel_mode_tree" model="ir.ui.view">
+            <field name="name">travel.mode.tree</field>
+            <field name="model">incitytravel.mode</field>
+            <field name="arch" type="xml">
+                <tree string="Travel Mode Name">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_travel_mode_form" model="ir.ui.view">
+            <field name="name">travel.mode.form</field>
+            <field name="model">incitytravel.mode</field>
+            <field name="arch" type="xml">
+                <form string="Travel Mode Name" version="7.0">                    
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_travel_mode" model="ir.actions.act_window">
+            <field name="name">Travel Mode</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">incitytravel.mode</field>
+            <field name="view_type">form</field>
+            <field name="help">Display and manage the list of all cities that can be assigned to your records. You can create or delete cities to make sure the ones you are working on will be maintained.
+            </field>
+        </record>
+
+
+        <menuitem name="Travel Mode Name" id="menu_travel_mode_list" parent="travel_configuration_menu" action="action_travel_mode" sequence="35"/>       
+    
+    <record id="view_mode_tree" model="ir.ui.view">
+            <field name="name">mode.tree</field>
+            <field name="model">intracity.travel</field>
+            <field name="arch" type="xml">
+                <tree string="Intracity Travel Mode Name">
+                    <field name="name"/>
+                    <field name="des"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_mode_form" model="ir.ui.view">
+            <field name="name">mode.form</field>
+            <field name="model">intracity.travel</field>
+            <field name="arch" type="xml">
+                <form string=" Intracity Travel Mode Name" version="7.0">                    
+                        <group>
+                            <field name="name"/>
+                            <field name="des"/>
+                        </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_travel_modes" model="ir.actions.act_window">
+            <field name="name">Intracity Travel Mode</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">intracity.travel</field>
+            <field name="view_type">form</field>
+            <field name="help">Display and manage the list of all cities that can be assigned to your records. You can create or delete cities to make sure the ones you are working on will be maintained.
+            </field>
+        </record>
+
+
+        <menuitem name="Intracity Travel Mode Name" id="menu_travel_mode" parent="travel_configuration_menu" action="action_travel_modes" sequence="33"/>       
+
+
+    <!--============================================================================================ 
+                                                Package Information
+    =================================================================================================-->
+
+       <record model="ir.ui.view" id="travel_package_form">
+         <field name="name">Package Management</field>
+         <field name="model">travel.package</field>
+         <field name="type">form</field>
+         <field name="arch" type="xml">
+            <form string="Package Management" version="7.0">                   
+               <sheet>
+                 <group>
+                  <h3>
+                      <label string="Package Number" colspan="4" />
+                      <field name="package_id" colspan="4" />
+                      <field name="img" widget='image' class="oe_avatar oe_left"/>
+                      <button name="get_upload_url" type="object" string="Upload Image" class="oe_highlight"/>
+                  </h3>
+                </group>                
+                  <h3>
+                      <label string="Package Name" colspan="4"/>
+                      <field name="package_name" colspan="4" />
+                  </h3>                                     
+                  <group>
+                            <group colspan="4" col="4">                              
+                                 <field name="no_adults"/>
+                                 <field name="no_children"/>
+                            </group>
+                            <group colspan="2">
+                                <field name="discription" placeholder="Add package discription..." />
+                            </group>
+                            <group colspan="2">
+                                 <field name="duration"/> 
+                                 <field name="total_price"/>
+                            </group> 
+                  </group>
+                            <notebook colspan="4">
+                                 <page string="Stay Itenary">
+                                  <separator string="Stay Itenary Lines" colspan="4"/>
+                                    <field name="stay_lines" colspan="4" string="Stay Itenary Lines" nolabel="1">
+                                        <form string="Stay Line"  version="7.0">
+                                            <group>
+                                                <field name="stay_id"/>
+                                                <field name="day_seq"/>
+                                                <field name="city_name" class="oe_inline" select="1"/>
+                                                <field name="desc"/>
+                                            </group>
+                                            <separator string="Possible Hotel Lines" colspan="4"/>
+                                            <field name="hotel_lines" colspan="4" string="Possible Hotel Lines" nolabel="1"> 
+                                                <form string="Possible Hotel" version="7.0">
+                    <sheet>
+                      <h1>
+                        <label string="Possible Hotel" colspan="4" />
+                      </h1>
+                      <group>
+                        <group col="2">
+                         <field name="hotel_name" class="oe_inline" on_change="on_change_hotel(hotel_name)"
+                          context="{'default_city_name': city_name, 'default_address': address, 'default_stars': stars}" 
+                          domain="[('city_name','=', parent.city_name)]"/>
+                         <field name="city_name" class="oe_inline"/>
+                        </group>
+                        <group col="2"> 
+                         <field name="address" class="oe_inline"/>
+                         <field name="stars" class="oe_inline"/>
+                        </group> 
+                      </group>
+                       <notebook colspan="4">
+                            <page string="Room Type">
+                               <separator string="Room Type" colspan="4"/>   
+                                <field name="room_line" string="Room Types Lines" colspan="4" nolabel='1'>
+                                  <form string="Room Management" version="7.0">
+                                     <group>
+                                       <field name="roomtype_name" class="oe_inline" 
+                                        on_change="on_change_room(roomtype_name)"
+                                        context="{'default_price': price}" domain="[('room_id','=', parent.hotel_name)]"/>
+                                       <field name="price" class="oe_inline"/>
+                                     </group>                                     
+                                  </form>
+                                  <tree string="Room Type">
+                                    <field name="roomtype_name"/>
+                                    <field name="price"/>
+                                  </tree>
+                                </field>
+                          </page>
+                          <page string="Meals">
+                            <separator string="Meal Type" colspan="4"/>   
+                              <field name="meal_line" string="Meal Types Lines" colspan="4">
+                                  <form string="Room Management" version="7.0">
+                                     <group>
+                                       <field name="mealtype_name" class="oe_inline"  on_change="on_change_meal(mealtype_name)"
+                                        context="{'default_price_unit': price_unit}" domain="[('meal_id','=', parent.hotel_name)]"/>
+                                       <field name="price_unit" class="oe_inline"/>
+                                     </group>                                     
+                                  </form>
+                                  <tree string="Meal Type">
+                                    <field name="mealtype_name"/>
+                                    <field name="price_unit"/>
+                                  </tree>
+                                </field>
+                            </page>
+                            <page string="Amenities and Inclusions">
+                              <separator string="Amenities and Inclusions Management" colspan="4"/>
+                                   <field name="amenity_line" string="Room Amenity Types" colspan="4">
+                                    <form string="Amenity and Inclusion Management" version="7.0">
+                                       <group>
+                                         <field name="amenity_name"  on_change="on_change_amenity(amenity_name)"
+                                          context="{'default_description':description, 'default_amount': amount}" 
+                                          domain="[('amenity_id','=', parent.hotel_name)]"/>
+                                         <field name="description"/>
+                                         <field name="amount"/>
+                                       </group> 
+                                    </form>
+                                    <tree string="Amenity and Inclusion Management">
+                                       <field name="amenity_name"/>
+                                       <field name="description"/>
+                                       <field name="amount"/>  
+                                    </tree> 
+                                </field>   
+                            </page>  
+                        </notebook>                
+                    </sheet>    
+                </form>
+
+                                                <tree string="Hotel Lines">
+                                                    <field name="hotel_name" />
+                                                    <field name="city_name" class="oe_inline"/>
+                                                    <field name="address"/>
+                                                    <field name="stars"/>
+                                                </tree>
+                                            </field>
+                                          </form>
+                                          <tree string="Stay Itenary Management">
+                                             <field name="day_seq"/>
+                                             <field name="stay_id"/>
+                                             <field name="city_name"/>
+                                          </tree>
+                                      </field>
+                                 </page>
+                                 <page string="travel Itenary">
+                                  <separator string="Travel Itenary Lines" colspan="4"/>
+                                    <field name="travel_lines"  colspan="4" string="Travel Itenary Lines" nolabel="1">
+                                        <form string="Available Hotels"  version="7.0">
+                                            <group>
+                                               <field name="travel_id"/>
+                                               <field name="day_seq"/>
+                                               <field name="tm_name"/>
+                                               <field name="s_city" class="oe_inline"/>
+                                               <field name="d_city" class="oe_inline"/>
+                                               <field name="price"/>
+                                            </group>
+                                        </form>
+                                        <tree string="Travel Itenary Management">
+                                             <field name="day_seq"/>
+                                             <field name="tm_name"/>
+                                             <field name="s_city"/>
+                                             <field name="d_city"/>
+                                             <field name="price"/>
+                                        </tree>
+                                     </field>
+                                 </page>
+                            </notebook>
+                    </sheet>
+                </form>
+          </field> 
+       </record>
+
+       <record model="ir.ui.view" id="travel_package_tree">
+         <field name="name">Package Management</field>
+         <field name="model">travel.package</field>
+         <field name="type">tree</field>
+         <field name="arch" type="xml">
+                <tree string="Package Management">
+                    
+                    <field name="package_id"/>
+                    <field name="package_name"/>
+
+                </tree>
+          </field> 
+       </record>
+
+       <record id="view_rooms_search" model="ir.ui.view">
+            <field name="name">room.types.search</field>
+            <field name="model">room.types</field>
+            <field name="arch" type="xml">
+                <search string="Available Rooms">
+                    <field name="roomtype_name" filter_domain="[('room_id','=',room_id)]" string="Available Rooms"/>
+                </search>
+            </field>
+        </record>
+
+       <record id="my_module_parent_form" model="ir.actions.act_window">
+            <field name="name">Package Management</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">travel.package</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       
+       <menuitem name="Package Creation" id="menu_travel" parent="travel_management_menu" sequence="1"/>
+       <menuitem name="Packages" id="info_package" sequence="3" parent="menu_travel" action="my_module_parent_form"/>
+
+   </data>
+</openerp>
+
+ 

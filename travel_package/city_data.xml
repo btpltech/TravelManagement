@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="c1" model="city">
+            <field name="name">Agra</field>
+            <field name="code">562</field>
+        </record>
+
+        <record id="c2" model="city">
+            <field name="name">Ahmedabad</field>
+            <field name="code">79</field>
+        </record>
+
+        <record id="c3" model="city">
+            <field name="name">Ajmer</field>
+            <field name="code">145</field>
+        </record>
+
+        <record id="c4" model="city">
+            <field name="name">Aligarh</field>
+            <field name="code">571</field>
+        </record>
+
+        <record id="c5" model="city">
+            <field name="name">Amritsar</field>
+            <field name="code">183</field>
+        </record>
+
+        <record id="c6" model="city">
+            <field name="name">Bangalore</field>
+            <field name="code">80</field>
+        </record>
+
+        <record id="c7" model="city">
+            <field name="name">bhopal</field>
+            <field name="code">755</field>
+        </record>
+
+        <record id="c8" model="city">
+            <field name="name">Bikaner</field>
+            <field name="code">151</field>
+        </record>
+
+        <record id="c9" model="city">
+            <field name="name">Bombay</field>
+            <field name="code">22</field>
+        </record>
+
+        <record id="c10" model="city">
+            <field name="name">Calcutta</field>
+            <field name="code">33</field>
+        </record>
+
+        <record id="c11" model="city">
+            <field name="name">Chandigarh</field>
+            <field name="code">172</field>
+        </record>
+
+        <record id="c12" model="city">
+            <field name="name">Chennai</field>
+            <field name="code">44</field>
+        </record>
+
+        <record id="c13" model="city">
+            <field name="name">Cochin(Kochi)</field>
+            <field name="code">482</field>
+        </record>
+
+        <record id="c14" model="city">
+            <field name="name">Cuttack</field>
+            <field name="code">671</field>
+        </record>
+
+        <record id="c15" model="city">
+            <field name="name">Delhi</field>
+            <field name="code">11</field>
+        </record>
+
+        <record id="c16" model="city">
+            <field name="name">Ghaziabad</field>
+            <field name="code">120</field>
+        </record>
+
+        <record id="c17" model="city">
+            <field name="name">Gurgaon</field>
+            <field name="code">124</field>
+        </record>
+
+        <record id="c18" model="city">
+            <field name="name">Guwahati</field>
+            <field name="code">361</field>
+        </record>
+
+        <record id="c19" model="city">
+            <field name="name">Jaipur</field>
+            <field name="code">141</field>
+        </record>
+
+        <record id="c20" model="city">
+            <field name="name">Jammu</field>
+            <field name="code">191</field>
+        </record>
+
+        <record id="c21" model="city">
+            <field name="name">Jodhpur</field>
+            <field name="code">291</field>
+        </record>
+
+        <record id="c22" model="city">
+            <field name="name">Kanpur</field>
+            <field name="code">512</field>
+        </record>
+
+       <record id="c24" model="city">
+            <field name="name">Lucknow</field>
+            <field name="code">522</field>
+        </record>
+
+       <record id="c28" model="city">
+            <field name="name">Visakhpatnam</field>
+            <field name="code">891</field>
+        </record>
+
+        <record id="c29" model="city">
+            <field name="name">Vellore</field>
+            <field name="code">416</field>
+        </record>
+
+        <record id="c30" model="city">
+            <field name="name">Surat</field>
+            <field name="code">261</field>
+        </record>
+
+   </data>
+</openerp>     

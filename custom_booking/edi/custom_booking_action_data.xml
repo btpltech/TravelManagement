@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <!-- EDI related Email Templates menu -->
+        <record model="ir.actions.act_window" id="action_email_templates">
+            <field name="name">Email Templates</field>
+            <field name="res_model">email.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="email_template.email_template_tree" />
+            <field name="search_view_id" ref="email_template.view_email_template_search"/>
+            <field name="context" eval="{'search_default_model_id': ref('custom_booking.model_custom_booking')}"/>
+        </record>
+    </data>
+
+    <!-- Mail template is done in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="1">
+
+        <!--Email template -->
+        <record id="email_template_edi_custom_booking" model="email.template">
+            <field name="name">Confirmation Request- Confirmation Request to User</field>
+            <field name="email_from">${object.customer_name.email or ''}</field>
+            <field name="subject">Quotation of custom package booking</field>
+            <field name="email_recipients">${object.customer_name.id}</field>
+            <field name="model_id" ref="model_custom_booking"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+    <p>Hello ${object.customer_name.name},</p>
+    
+    <p>Here is your quotation from Traveloore: </p>
+
+    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>REFERENCES</strong><br />
+       &nbsp;&nbsp;Booking number: <strong>${object.id}</strong><br />
+       &nbsp;&nbsp;Package total Price: <strong>${object.amount_total}</strong><br />
+       &nbsp;&nbsp;Booking date: ${object.date}<br />
+    </p>
+    
+    <p>Confirm your booking by clicking following link:</p>
+        <a style="margin-left: 120px;" href="http://traveloore.com/customer_response.php?db=${object.dt}&bid=${object.id}"> Click Here to Confirm Booking </a>
+    
+    <p>If you have any question, do not hesitate to contact us.</p>
+    
+    <p>Thank you for using Traveloore!</p>
+
+    </div>
+    ]]>
+           </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="t1" model="incitytravel.mode">
+            <field name="name">AC Cab</field>
+        </record>
+
+        <record id="t2" model="incitytravel.mode">
+            <field name="name">Airways</field>
+        </record>
+
+        <record id="t3" model="incitytravel.mode">
+            <field name="name">Luxry Bus</field>
+        </record>
+
+        <record id="t4" model="incitytravel.mode">
+            <field name="name">Taxi</field>
+        </record>
+
+        <record id="t5" model="incitytravel.mode">
+            <field name="name">Train</field>
+        </record>
+   </data>
+</openerp>     

@@ -1,0 +1,18 @@
+{
+"name":'Travel Booking Module',
+"version":'0.0.8',
+"category":'Tools',
+"complexity":"easy",
+"description":"""Book Your Travel Package Here""",
+"author":'Madhav Agarwal',
+"website":'http://www.traveloore.com/',
+"depends":['travel_package','account','purchase'],
+"init_xml":[],
+"data":['edi/booking_hotel_room_action_data.xml',
+		'travel_booking_sequence.xml',
+        'travel_booking_workflow.xml',
+        'travel_booking_view.xml'],
+"demo_xml":[],
+"installable":True,
+"auto_install":True,
+}

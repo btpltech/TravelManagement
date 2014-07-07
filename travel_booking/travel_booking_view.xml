@@ -1,0 +1,316 @@
+<?xml version="1.0"?>
+
+<openerp>
+  <data>    
+      <record model="ir.ui.view" id="travel_booking_form">
+        <field name="name">travel.booking.form</field>
+        <field name="model">travel.booking</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Booking" version="7.0">
+                 <header>
+                     <button name="New_open" string="Book Package" states="New" invisible="0" class="oe_highlight"/>
+                     <button name="action_invoice_create" type="object" string="Create Invoice" states="open" invisible="0" class="oe_highlight"/>
+                     <button name="open_cancel" string="Cancel Booking" states="open" invisible="0" class="oe_highlight"/>
+                     <field name="state" widget="statusbar" statusbar_visible="New,open,confirm,cancel"/>
+                 </header>
+                  <sheet>
+                    <h1>
+                     <label string="Booking No" colspan="4" />
+                     <field name="book_no" class="oe_inline"/>
+                    </h1>
+                    <group colspan="4" col="4">
+                        <field name="date"/>
+                    </group>
+                        <notebook colspan="4">
+                          <page string="Booking Details">
+                          <group>  
+                            <group col="4">
+                              <field name="start_date"/>
+                              <field name="end_date"/>
+                            </group>
+                            <newline/>
+                            <group col="4">
+                                <field name="salutation" class="oe_inline"/>
+                                <field name="customer_name" class="oe_inline"/>
+                                <field name="gender" class="oe_inline"/>
+                            </group>
+                            <newline/>
+                            <group col="6">
+                                <field name="address" class="oe_inline"/>
+                                <field name="city" class="oe_inline"/>
+                                <field name="state_name" class="oe_inline"/>
+                                <field name="country" class="oe_inline"/>
+                                <field name="zipcode" class="oe_inline"/>
+                            </group>
+                            <newline/>
+                            <group col="4">
+                                <field name="m_no" class="oe_inline"/>
+                                <field name="email" class="oe_inline"/>
+                            </group>
+                            <newline/>
+                            <group col="6">
+                                <field name="id_type" class="oe_inline"/>
+                                <field name="id_num" class="oe_inline"/>
+                            </group>
+                          </group>                        
+                          </page>
+                          <page string="Traveller Details">
+                           <field name="traveller_line"  colspan="4" string="Traveller Details" nolabel="1">
+                            <form string="Traveller Details" version="7.0">
+                          <sheet>
+                          <group>  
+                            <group col="4">
+                                <field name="t_salutation" class="oe_inline"/>
+                                <field name="traveller_name" class="oe_inline"/>
+                                <field name="t_gender" class="oe_inline"/>
+                            </group>
+                            <newline/>
+                            <group col="6">
+                                <field name="t_address" class="oe_inline"/>
+                                <field name="t_city_name" class="oe_inline"/>
+                                <field name="t_state_name" class="oe_inline"/>
+                                <field name="t_country" class="oe_inline"/>
+                                <field name="t_zipcode" class="oe_inline"/>
+                            </group>
+                            <newline/>
+                            <group col="4">
+                                <field name="t_m_no" class="oe_inline"/>
+                                <field name="t_email" class="oe_inline"/>
+                            </group>
+                            <newline/>
+                            <group col="6">
+                                <field name="t_id_type" class="oe_inline"/>
+                                <field name="t_id_num" class="oe_inline"/>
+                            </group>
+                          </group>
+                        </sheet>
+                      </form>
+                      <tree string="Customer Details">
+                        <field name="traveller_name"/>
+                        <field name="t_gender"/>
+                        <field name="t_city_name"/>
+                        <field name="t_m_no"/>
+                      </tree>
+                    </field>
+                  </page>
+                          <page string="Package Details">
+                          <sheet>
+                            <h1>
+                                <label string="Package Id" colspan="4" />
+                                <field name="package_id" class="oe_inline" on_change="on_change_package(package_id,context)"
+                                context="{'default_package_name': package_name, 'default_no_adults': adults, 'default_no_children': child, 'default_discription': desc}"/>
+                            </h1>
+                          <group>
+                            <group col="4">
+                                <field name="package_name" class="oe_inline"/>
+                            </group>
+                            <newline/>
+                            <group col="6">
+                                <field name="adults" class="oe_inline"/>
+                                <field name="child" class="oe_inline"/>
+                            </group>
+                            <newline/>
+                            <group col="4">
+                                <field name="desc"/>
+                            </group>
+                          </group>                          
+                          <separator string="Stay Itinerary" colspan="4"/>
+                              <field name="stay_line"  colspan="4" string="Stay Itinerary" nolabel="1">
+                                  <form string="Stay Itinerary"  version="7.0">
+                                    <sheet>
+                                      <h1>
+                                          <label string="Stay Id" colspan="4" />
+                                          <field name="stay_id" class="oe_inline" on_change="on_change_stay(stay_id)"
+                                            context="{'default_city': city, 'default_day_seq': day_seq, 'default_desc': desc}" 
+                                            domain="[('stay','=', parent.package_id)]"/>
+                                      </h1>
+                                    <group>
+                                        <group>
+                                          <field name="day_seq"/>
+                                            <field name="city" class="oe_inline"/>
+                                        </group>                                                                                
+                                        <group>                                            
+                                            <field name="desc"/>
+                                        </group>
+                                    </group>
+                                  <separator string="Hotel Lines" colspan="4"/>
+                                    <field name="hotel_lines" colspan="4" string="Possible Hotel Lines" nolabel="1"> 
+                                      <form string="Hotel Information"  version="7.0">
+                                        <header>
+                                            <button name="send_mail" type="object" string="Confirmation Request to Hotel" states="open" class="oe_highlight"/>
+                                            <button name="button_confirm" type="object" string="Confirm Hotel" states="requested" class="oe_highlight"/>
+                                            <button name="create_purchase_order" type="object" string="Create Purchase Order" states="confirmed" class="oe_highlight"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="open,requested,confirmed,finalized"/>                                        
+                                        </header>
+                                        <sheet>
+                      <h1>
+                        <label string="Hotel Management" colspan="4" />
+                      </h1>
+                      <group>
+                         <field name="hotel_id" on_change="on_change_hotel(hotel_id)"
+                          context="{'default_bill_contact':hotel_name, 'default_city_name': city_name, 'default_address': address, 'default_stars': stars}" 
+                          domain="[('possible_hotel','=', parent.stay_id)]"/>
+                         <field name="hotel_name" context="{'search_default_supplier':1,'default_supplier':1,'default_customer':0}" domain="[('supplier','=',True)]"/>
+                         <field name="city_name"/>
+                         <field name="address"/>
+                         <field name="stars"/>
+                       </group>
+                       <notebook colspan="4">
+                            <page string="Room Type">
+                               <separator string="Room Type" colspan="4"/>   
+                                <field name="room_lines" colspan="4" string="Room Types Lines" nolabel="1">   
+                                  <form string="Room Management" version="7.0">
+                                     <group>                                       
+                                       <field name="roomtype_name" class="oe_inline" on_change="on_change_room(roomtype_name)"
+                                        context="{'default_price': price}" domain="[('room','=', parent.hotel_id)]"/>
+                                       <field name="price" class="oe_inline"/>
+                                     </group>                                     
+                                  </form>
+                                  <tree string="Room Type">
+                                    <field name="roomtype_name" />
+                                    <field name="price"/>
+                                  </tree>
+                                </field>
+                          </page>
+                          <page string="Meals">
+                            <separator string="Meal Type" colspan="4"/>   
+                              <field name="meal_lines" colspan="4" string="Meal Types Lines" nolabel="1">   
+                                  <form string="Meal Management" version="7.0">
+                                     <group>
+                                       <field name="mealtype_name" class="oe_inline" on_change="on_change_meal(mealtype_name)"
+                                        context="{'default_price_unit': price_unit}" domain="[('meal','=', parent.hotel_id)]"/>
+                                       <field name="price_unit" class="oe_inline"/>
+                                     </group>
+                                  </form>
+                                  <tree string="Meal Type">
+                                    <field name="mealtype_name"/>
+                                    <field name="price_unit"/>
+                                  </tree>
+                                </field>
+                            </page>
+                            <page string="Amenities and Inclusions">
+                              <separator string="Amenities and Inclusions Management" colspan="4"/>
+                                   <field name="amenity_lines" colspan="4" string="Room Amenity Types"
+                                    nolable="1">
+                                    <form string="Amenity and Inclusion Management" version="7.0">
+                                      <sheet>
+                                       <group>
+                                         <field name="amenity_name" on_change="on_change_amenity(amenity_name)"
+                                          context="{'default_description':description, 'default_amount': amount}" 
+                                          domain="[('amen','=', parent.hotel_id)]"/>
+                                         <field name="amount"/>
+                                       </group>
+                                       <group>
+                                         <field name="description"/>
+                                       </group>  
+                                      </sheet> 
+                                    </form>
+                                    <tree string="Amenity and Inclusion Management">
+                                       <field name="amenity_name"/>
+                                       <field name="description"/>
+                                       <field name="amount"/>  
+                                    </tree> 
+                                </field>   
+                            </page>  
+                        </notebook>                
+                    </sheet>    
+                                      </form>
+                                      <tree string="Hotel Lines">
+                                        <field name="hotel_id"/>
+                                        <field name="hotel_name" />
+                                        <field name="city_name"/>
+                                        <field name="address"/>
+                                        <field name="stars"/>
+                                        <field name="state"/>
+                                      </tree>
+                                    </field>
+                                  </sheet>
+                                  </form>
+                                  <tree string = "Stay Itinerary">
+                                      <field name="day_seq"/>
+                                      <field name="city"/>
+                                      <field name="desc"/>
+                                  </tree>
+                                </field>
+                           
+                           <separator string="Travel Itinerary" colspan="4"/>
+                              <field name="travel_line"  colspan="4" string="Stay Itinerary" nolabel="1">
+                                  <form string="Travel Itinerary"  version="7.0">
+                                    <sheet>
+                                      <h1>
+                                          <label string="Travel Id" colspan="4" />
+                                          <field name="travel_id" class="oe_inline" on_change="on_change_travel(travel_id)"
+                                           context="{'default_tm_name':mode, 'default_s_city': source, 'default_d_city': destination, 'default_day_seq': day_seq, 'default_price': price}"  
+                                           domain="[('travel','=', parent.package_id)]"/>
+                                      </h1>
+                                    <group>
+                                        <group>
+                                          <field name="day_seq" class="oe_inline"/>  
+						                              <field name="mode" class="oe_inline"/>
+                                        </group>
+                                        <group>
+                                            <field name="source" class="oe_inline"/>
+                                            <field name="destination" class="oe_inline"/>
+						                                <field name="price" class="oe_inline"/>
+                                        </group>
+                                    </group>
+                                  </sheet>                                  
+                                  </form>
+                                  <tree string = "Travel Itinerary">
+                                      <field name="day_seq"/>
+                                      <field name="mode"/>
+                                      <field name="source"/>
+                                      <field name="destination"/>
+					                            <field name="price"/>
+                                  </tree>
+                                </field>
+                              </sheet>
+                              </page>         
+                        </notebook> 
+                        </sheet>
+                        <group colspan="4" class="oe_subtotal_footer oe_right">
+                              <field name="amount_total"/>
+                              <field name="advance_amount"/>
+                              <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_balance" />
+                                    <button name="button_dummy" string="Compute" type="object" icon="terp-sale" class="oe_highlight"/>
+                              </div>
+                              <field name="amount_balance" nolabel="1" sum="Balance amount"/>                     
+                            </group>
+                            <div class="oe_clear"/>
+                    </form>
+                 </field>
+              </record>                   
+
+      <record model="ir.ui.view" id="travel_booking_tree">
+         <field name="name">travel.booking.tree</field>
+         <field name="model">travel.booking</field>
+         <field name="type">tree</field>
+         <field name="arch" type="xml">
+                <tree string="Booking Management">
+                    <field name="book_no"/>
+                    <field name="date"/>
+                    <field name="customer_name"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="state"/>
+                    <field name="advance_amount"/>
+                    <field name="amount_total"/>
+                </tree>
+          </field> 
+       </record>
+       
+
+       <record model="ir.actions.act_window" id="open_travel_booking_form_tree_all">
+            <field name="name">Travel Booking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">travel.booking</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+      </record>
+
+       <menuitem name="Bookings" id="info_booking" parent="travel_package.travel_management_menu" sequence="4"/>
+       <menuitem name="Generate Booking" id="generate_booking" parent="info_booking" action="open_travel_booking_form_tree_all" sequence="5"/>
+   </data>
+</openerp>  

@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <!-- EDI related Email Templates menu -->
+        <record model="ir.actions.act_window" id="action_email_templates">
+            <field name="name">Email Templates</field>
+            <field name="res_model">email.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="email_template.email_template_tree" />
+            <field name="search_view_id" ref="email_template.view_email_template_search"/>
+            <field name="context" eval="{'search_default_model_id': ref('custom_booking.model_custom_hotel_line')}"/>
+        </record>
+    </data>
+
+    <!-- Mail template is done in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="1">
+
+        <!--Email template -->
+        <record id="email_template_edi_custom_hotel" model="email.template">
+            <field name="name">Confirmation Request- Confirmation Request to Hotel</field>
+            <field name="email_from">${object.hotel.email or ''}</field>
+            <field name="subject">Request for Hotel Room booking confirmation</field>
+            <field name="email_recipients">${object.hotel.id}</field>
+            <field name="model_id" ref="model_custom_hotel_line"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+    <p>Hello ${object.hotel.name},</p>
+    <p> I am requesting for a confirmation of the room ${object.room.roomtype_name.name} in your Hotel on dated ${object.checkin}</p>
+        
+    <p> If the room is available click on the following link </p>
+    
+    </br>
+        <a style="margin-left: 120px;" href="http://traveloore.com/custom_hotel_confirm.php?db=${object.dt}&bid=${object.hotelstay.id}&st=${object.id}"> Click Here to Confirm Hotel </a>
+    
+    <p> Thanks </p>
+
+    <p> Traveloore Team </p>
+    </div>
+    ]]>
+           </field>
+        </record>
+    </data>
+</openerp>
